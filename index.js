@@ -33,34 +33,45 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
 async function handleEvent(event){
   if(event.type == "message" && event.message.type == "text"){
 
-    var res = await getTrainTime();
-    // console.log(res[0]);
-    var response = res.join('\n');
+    if(event.message.text.indexOf("九大学研都市") !== -1){
 
-     responsemsg = {
-         type: "text",
-         text: response
-      };
+      var res = await getTrainTime();
+      // console.log(res[0]);
+      var response = res.join('\n');
+
+       responsemsg = {
+           type: "text",
+           text: response
+        };
+    } else if(event.message.text.indexOf("博多") !== -1){
+
+      var res = await getTrainTime(departure="00007420", arrival="00009453", line="=00000836", updown="1");
+      // console.log(res[0]);
+      var response = res.join('\n');
+
+       responsemsg = {
+           type: "text",
+           text: response
+        };
+    }
 
   }// if-end
   return bot.replyMessage(event.replyToken, responsemsg);
 } // function-end
 
 
-async function getTrainTime(){
-  const cheerioObject = await cheerio.fetch('https://www.jrkyushu-timetable.jp/cgi-bin/sp/sp-tt_dep.cgi/2955100/');
+async function getTrainTime( departure, arrival, line, updown){
 
-  let lists = cheerioObject.$('ul[class="baseList2 mb20"]').text();
+  //https://www.navitime.co.jp/diagram/depArrTimeList?departure=00009453&arrival=00007420&line=00000016&updown=0&hour=4&date=2020-01-09
+  const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/depArrTimeList',{departure:departure,arrival:arrival,line:line,updown:updown});
+
+  let lists = cheerioObject.$('span[class="time dep"]').text();
   let replyMessage = [];
 
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
   lists.forEach((list) => {
-    if (list.indexOf("行") !== -1) {
-      //
-    }else{
-      replyMessage.push(list.trim());
-    }
+    replyMessage.push(list.trim());
   });
 
   return replyMessage;
