@@ -98,7 +98,7 @@ async function getTrainTime( departure, arrival, line,  updown, time){
   var count = 0
 
   lists.forEach((list) => {
-    if(count >= 4){
+    if(count >= 5){
       //break;
     }else{
 
@@ -107,8 +107,8 @@ async function getTrainTime( departure, arrival, line,  updown, time){
           if( TIME (time, list.split("降")[1].trim() ) ){
             replyMessage.push(list.split("降")[1].trim());
             count++;
-          }
-          start_flag = true;
+           }
+           start_flag = true;
 
         }else{
           if(start_flag){
@@ -138,8 +138,9 @@ function TIME(user, list){
   }
   user = user.split(":");
   list = list.split(":");
-  console.log(Number(list[0]) == Number(user[0]));
-  if((Number(list[0]) == Number(user[0])) && (Number(list[1]) > Number(user[1]))){
+  console.log(user);
+  // console.log(Number(list[0]) == Number(user[0]));
+  if((Number(list[0]) == Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
     flag = true;
   }else if(Number(list[0]) > Number(user[1])){
     flag = true;
