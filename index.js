@@ -138,7 +138,7 @@ function TIME(user, list){
   }
   user = user.split(":");
   list = list.split(":");
-  console.log(Number(list[0]) == Number(user[0]);
+  console.log(Number(list[0]) == Number(user[0]));
   if((Number(list[0]) == Number(user[0])) && (Number(list[1]) > Number(user[1]))){
     flag = true;
   }else if(Number(list[0]) > Number(user[1])){
