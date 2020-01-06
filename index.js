@@ -52,11 +52,14 @@ async function handleEvent(event){
            text: response
         };
     } else {
+
       responsemsg = {
+          acsions:{
             type:"datetimepicker",
             label:"ラベル文字列",
             data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
             mode:"time"
+          }
          };
 
       // responsemsg = {
