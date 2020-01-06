@@ -35,7 +35,7 @@ async function handleEvent(event){
   if(event.type === 'postback'){
     if(event.postback.data == "九大学研都市"){
 
-      var res = await getTrainTime("00009453", "00007420", "00000016", "0", event.postback.time);
+      var res = await getTrainTime("00009453", "00007420", "00000016", "0", event.postback.params.time);
       var response = res.join('\n');
 
        responsemsg = {
@@ -45,7 +45,7 @@ async function handleEvent(event){
 
     } else if(event.postback.data == "博多"){
 
-      var res = await getTrainTime("00007420", "00009453", "00000836", "1", event.postback.time);
+      var res = await getTrainTime("00007420", "00009453", "00000836", "1", event.postback.params.time);
       var response = res.join('\n');
 
        responsemsg = {
