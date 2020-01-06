@@ -31,5 +31,30 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
 
 // ----------------------------------------------------
 async function handleEvent(event){
+  if(event.type == "message" && event.message.type == "text"){
 
+    var responsee = await getTrainTime();
+    var repponse = repponsee.join('/')
+    // console.log(repp)
+
+     responsemsg = {
+         type: "text",
+         text: repponse
+      };
+
+  }// if-end
+  return bot.replyMessage(event.replyToken, responsemsg);
+} // function-end
+
+
+async function getTrainTime(){
+  const cheerioObject = await cheerio.fetch('https://www.jrkyushu-timetable.jp/cgi-bin/sp/sp-tt_dep.cgi/2955100/'');
+  let lists = cheerioObject.$('span').text();
+  let replyMessage = [];
+
+  lists.forEach((list) => {
+    replyMessage.push(list.trim());
+  });
+
+  return replyMessage;
 }
