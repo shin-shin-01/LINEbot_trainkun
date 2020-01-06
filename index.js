@@ -52,7 +52,7 @@ async function getTrainTime(){
   let lists = cheerioObject.$('span').text();
   let replyMessage = [];
 
-  lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split("");
+  lists = lists.trim().split("");
 
   lists.forEach((list) => {
     replyMessage.push(list.trim());
