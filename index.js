@@ -91,7 +91,6 @@ async function getTrainTime( departure, arrival, line,  updown){
   // span[class="time dep"]
   let lists = cheerioObject.$('span').text();
   let replyMessage = [];
-  console.log(lists);
 
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
@@ -101,12 +100,13 @@ async function getTrainTime( departure, arrival, line,  updown){
       replyMessage.push(list.split("降")[1].trim());
       start_flag = true;
     }
-    if(start){
+    if(start_flag){
       replyMessage.push(list.trim());
     }else{
       //
     }
   });
   replyMessage = replyMessage.pop();
+  console.log(replyMessage);
   return replyMessage;
 }
