@@ -35,7 +35,7 @@ async function handleEvent(event){
 
     if(event.message.text.indexOf("九大学研都市") !== -1){
 
-      var res = await getTrainTime();
+      var res = await getTrainTime(departure="00009453", arrival="00007420", line="00000016", updown="0");
       // console.log(res[0]);
       var response = res.join('\n');
 
@@ -45,7 +45,7 @@ async function handleEvent(event){
         };
     } else if(event.message.text.indexOf("博多") !== -1){
 
-      var res = await getTrainTime(departure="00007420", arrival="00009453", line="=00000836", updown="1");
+      var res = await getTrainTime(departure="00007420", arrival="00009453", line="00000836", updown="1");
       // console.log(res[0]);
       var response = res.join('\n');
 
