@@ -34,8 +34,7 @@ async function handleEvent(event){
   if(event.type == "message" && event.message.type == "text"){
 
     var res = await getTrainTime();
-    var response = res.join('/')
-    // console.log(repp)
+    var response = res.join('\n');
 
      responsemsg = {
          type: "text",
