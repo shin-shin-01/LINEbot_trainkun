@@ -42,6 +42,7 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
+
     } else if(event.postback.data == "博多"){
 
       var res = await getTrainTime("00007420", "00009453", "00000836", "1");
@@ -52,7 +53,6 @@ async function handleEvent(event){
            text: response
         };
       }
-
   } else {
 
       responsemsg = {
@@ -98,6 +98,8 @@ async function getTrainTime( departure, arrival, line,  updown){
   lists.forEach((list) => {
     replyMessage.push(list.trim());
   });
-
+  replyMessage.pop();
+  replyMessage = replyMessage.split("降");
+  replyMessage = replyMessage[1];
   return replyMessage;
 }
