@@ -99,7 +99,7 @@ async function getTrainTime( departure, arrival, line,  updown, time){
 
   lists.forEach((list) => {
     if(count >= 4){
-      break;
+      //break;
     }else{
 
         if(list.indexOf("カレンダー時以降") !== -1){
