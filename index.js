@@ -35,7 +35,7 @@ async function handleEvent(event){
   if(event.type === 'postback'){
     if(event.postback.data == "九大学研都市"){
 
-      var res = await getTrainTime("00009453", "00007420", "00000016", "0");
+      var res = await getTrainTime("00009453", "00007420", "00000016", "0", event.postback.time);
       var response = res.join('\n');
 
        responsemsg = {
@@ -45,7 +45,7 @@ async function handleEvent(event){
 
     } else if(event.postback.data == "博多"){
 
-      var res = await getTrainTime("00007420", "00009453", "00000836", "1");
+      var res = await getTrainTime("00007420", "00009453", "00000836", "1", event.postback.time);
       var response = res.join('\n');
 
        responsemsg = {
@@ -84,7 +84,7 @@ async function handleEvent(event){
 } // function-end
 
 
-async function getTrainTime( departure, arrival, line,  updown){
+async function getTrainTime( departure, arrival, line,  updown, time){
 
   //https://www.navitime.co.jp/diagram/depArrTimeList?departure=00009453&arrival=00007420&line=00000016&updown=0&hour=4&date=2020-01-09
   const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/depArrTimeList',{departure:departure,arrival:arrival,line:line,updown:updown});
@@ -99,14 +99,15 @@ async function getTrainTime( departure, arrival, line,  updown){
     if(list.indexOf("カレンダー時以降") !== -1){
       replyMessage.push(list.split("降")[1].trim());
       start_flag = true;
-    }
-    if(start_flag){
-      replyMessage.push(list.trim());
     }else{
-      //
+      if(start_flag){
+        replyMessage.push(list.trim());
+      }else{
+        //
+      }
     }
   });
   replyMessage.pop();
-  console.log(replyMessage);
+  console.log(time);
   return replyMessage;
 }
