@@ -31,9 +31,9 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
 
 // ----------------------------------------------------
 async function handleEvent(event){
-  if(event.type == "message" && event.message.type == "text"){
 
-    if(event.message.text.indexOf("九大学研都市") !== -1){
+  if(event.type === 'postback'){
+    if(event.postback.data == "九大学研都市"){
 
       var res = await getTrainTime("00009453", "00007420", "00000016", "0");
       var response = res.join('\n');
@@ -42,7 +42,7 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
-    } else if(event.message.text.indexOf("博多") !== -1){
+    } else if(event.postback.data == "博多"){
 
       var res = await getTrainTime("00007420", "00009453", "00000836", "1");
       var response = res.join('\n');
@@ -51,7 +51,9 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
-    } else {
+      }
+
+  } else {
 
       responsemsg = {
         type: "template",
@@ -76,15 +78,8 @@ async function handleEvent(event){
             ]
         }
          };
-
-      // responsemsg = {
-      //     type: "text",
-      //     text: "メニューから選んでね"
-      //  };
-
     }
 
-  }// if-end
   return bot.replyMessage(event.replyToken, responsemsg);
 } // function-end
 
