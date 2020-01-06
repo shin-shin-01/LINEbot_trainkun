@@ -35,7 +35,7 @@ async function handleEvent(event){
 
     if(event.message.text.indexOf("九大学研都市") !== -1){
 
-      var res = await getTrainTime(00009453, 00007420, 00000016, 0);
+      var res = await getTrainTime("00009453", "00007420", "00000016", "0");
       var response = res.join('\n');
 
        responsemsg = {
@@ -69,8 +69,8 @@ async function getTrainTime( departure, arrival, line,  updown){
 
   //https://www.navitime.co.jp/diagram/depArrTimeList?departure=00009453&arrival=00007420&line=00000016&updown=0&hour=4&date=2020-01-09
   const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/depArrTimeList',{departure:departure,arrival:arrival,line:line,updown:updown});
-
-  let lists = cheerioObject.$('span[class="time dep"]').text();
+  // span[class="time dep"]
+  let lists = cheerioObject.$('span').text();
   let replyMessage = [];
   console.log(lists);
 
