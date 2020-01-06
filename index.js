@@ -54,12 +54,12 @@ async function handleEvent(event){
     } else {
 
       responsemsg = {
-        type: "template",
-        altText: "this is a buttons template",
-        template: {
-            type: "buttons",
-            title: "空いてる日程教えてよ",
-            text: "Please select",
+        // type: "template",
+        // altText: "this is a buttons template",
+        // template: {
+        //     type: "buttons",
+        //     title: "空いてる日程教えてよ",
+        //     text: "Please select",
           actions:[{
             type:"datetimepicker",
             label:"ラベル文字列",
@@ -67,7 +67,7 @@ async function handleEvent(event){
             mode:"time"
           }
           ]
-        }
+        // }
          };
 
       // responsemsg = {
