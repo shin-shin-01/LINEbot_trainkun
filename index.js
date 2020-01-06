@@ -54,20 +54,27 @@ async function handleEvent(event){
     } else {
 
       responsemsg = {
-        // type: "template",
-        // altText: "this is a buttons template",
-        // template: {
-        //     type: "buttons",
-        //     title: "空いてる日程教えてよ",
-        //     text: "Please select",
-          actions:[{
+        type: "template",
+        altText: "this is a buttons template",
+        template: {
+            type: "buttons",
+            title: "出発駅＆時刻選択",
+            text: "Please select",
+          actions:[
+            {
             type:"datetimepicker",
-            label:"ラベル文字列",
+            label:"九大学研都市駅発",
             data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
             mode:"time"
-          }
-          ]
-        // }
+            },
+            {
+            type:"datetimepicker",
+            label:"博多駅発",
+            data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
+            mode:"time"
+            }
+            ]
+        }
          };
 
       // responsemsg = {
