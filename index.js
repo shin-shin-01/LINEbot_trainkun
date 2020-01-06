@@ -64,13 +64,13 @@ async function handleEvent(event){
             {
             type:"datetimepicker",
             label:"九大学研都市駅発",
-            data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
+            data:"九大学研都市",
             mode:"time"
             },
             {
             type:"datetimepicker",
             label:"博多駅発",
-            data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
+            data:"博多",
             mode:"time"
             }
             ]
