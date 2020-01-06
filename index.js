@@ -35,7 +35,7 @@ async function handleEvent(event){
 
     if(event.message.text.indexOf("九大学研都市") !== -1){
 
-      var res = await getTrainTime(departure="00009453", arrival="00007420", line="00000016", updown="0");
+      var res = await getTrainTime(departure=00009453, arrival=00007420, line=00000016, updown=0);
       var response = res.join('\n');
 
        responsemsg = {
@@ -51,6 +51,13 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
+    } else {
+
+      responsemsg = {
+          type: "text",
+          text: "メニューから選んでね"
+       };
+
     }
 
   }// if-end
