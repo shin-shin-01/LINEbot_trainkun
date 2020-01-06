@@ -106,7 +106,7 @@ async function getTrainTime( departure, arrival, line,  updown){
       //
     }
   });
-  replyMessage = replyMessage.pop();
+  replyMessage.pop();
   console.log(replyMessage);
   return replyMessage;
 }
