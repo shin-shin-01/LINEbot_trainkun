@@ -56,9 +56,12 @@ async function getTrainTime(){
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
   lists.forEach((list) => {
-    replyMessage.push(list.trim());
+    if (list.indexOf("行") !== -1) {
+      //
+    }else{
+      replyMessage.push(list.trim());
+    }
   });
 
-  // console.log(replyMessage);
   return replyMessage;
 }
