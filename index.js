@@ -54,12 +54,19 @@ async function handleEvent(event){
     } else {
 
       responsemsg = {
+        type: "template",
+        altText: "this is a buttons template",
+        template: {
+            type: "buttons",
+            title: "空いてる日程教えてよ",
+            text: "Please select",
           actions:{
             type:"datetimepicker",
             label:"ラベル文字列",
             data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
             mode:"time"
           }
+        }
          };
 
       // responsemsg = {
