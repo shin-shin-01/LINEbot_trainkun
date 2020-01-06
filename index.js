@@ -100,25 +100,26 @@ async function getTrainTime( departure, arrival, line,  updown, time){
   lists.forEach((list) => {
     if(count >= 4){
       break;
-    }
-
-    if(list.indexOf("カレンダー時以降") !== -1){
-
-      if(TIME(time, list.split("降")[1].trim()){
-      replyMessage.push(list.split("降")[1].trim());
-      count++;
-      }
-      start_flag = true;
-
     }else{
-      if(start_flag){
-        if(TIME(time, list.trim())){
-          replyMessage.push(list.trim());
+
+        if(list.indexOf("カレンダー時以降") !== -1){
+
+          if(TIME(time, list.split("降")[1].trim()){
+          replyMessage.push(list.split("降")[1].trim());
           count++;
+          }
+          start_flag = true;
+
+        }else{
+          if(start_flag){
+            if(TIME(time, list.trim())){
+              replyMessage.push(list.trim());
+              count++;
+            }
+          }else{
+            //
+          }
         }
-      }else{
-        //
-      }
     }
   });
   replyMessage.pop();
