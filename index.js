@@ -95,9 +95,18 @@ async function getTrainTime( departure, arrival, line,  updown){
 
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
+  var start_flag = false;
   lists.forEach((list) => {
-    replyMessage.push(list.trim());
+    if(list.indexOf("カレンダー時以降") !== -1){
+      replyMessage.push(list.split("降")[1].trim());
+      start_flag = true;
+    }
+    if(start){
+      replyMessage.push(list.trim());
+    }else{
+      //
+    }
   });
-  replyMessage = replyMessage.pop().split("降")[1];
+  replyMessage = replyMessage.pop();
   return replyMessage;
 }
