@@ -33,15 +33,15 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
 async function handleEvent(event){
   if(event.type == "message" && event.message.type == "text"){
 
-    var responsee = await getTrainTime();
-    var repponse = repponsee.join('/')
+    var res = await getTrainTime();
+    var response = res.join('/')
     // console.log(repp)
 
      responsemsg = {
          type: "text",
-         text: repponse
+         text: response
       };
-      
+
   }// if-end
   return bot.replyMessage(event.replyToken, responsemsg);
 } // function-end
@@ -55,6 +55,7 @@ async function getTrainTime(){
   lists.forEach((list) => {
     replyMessage.push(list.trim());
   });
+
 
   return replyMessage;
 }
