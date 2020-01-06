@@ -56,6 +56,6 @@ async function getTrainTime(){
     replyMessage.push(list.trim());
   });
 
-
+  console.log(replyMessage);
   return replyMessage;
 }
