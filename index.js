@@ -54,7 +54,7 @@ async function handleEvent(event){
     } else {
 
       responsemsg = {
-          acsions:{
+          actions:{
             type:"datetimepicker",
             label:"ラベル文字列",
             data:"ポストバックイベントのpostback.dataプロパティで返される文字列",
