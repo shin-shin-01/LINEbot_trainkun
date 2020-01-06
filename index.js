@@ -129,8 +129,7 @@ async function getTrainTime( departure, arrival, line,  updown, time){
 
 
 function TIME(user, list){
-  var flag = [];
-  flag.push(false);
+  var flag = false;
 
   // user : 03:29, list : 快速09:22発〜
   list = list.split("発")[0];
@@ -139,16 +138,14 @@ function TIME(user, list){
   }
   user = user.split(":");
   list = list.split(":");
-  console.log(Number(list[0]));
+  console.log(Number(list[1]));
   // console.log(Number(list[0]) == Number(user[0]));
   if((Number(list[0]) == Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
-    flag.pop();
-    flag.push(true);
+    flag = true;
   }else if(Number(list[0]) > Number(user[1])){
-    flag.pop();
-    flag.push(true);
+    flag = true;
   } else{
     //
   }
-  return flag[0];
+  return flag;
 }
