@@ -95,13 +95,27 @@ async function getTrainTime( departure, arrival, line,  updown, time){
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
   var start_flag = false;
+  var count = 0
+
   lists.forEach((list) => {
+    if(count >= 4){
+      break;
+    }
+
     if(list.indexOf("カレンダー時以降") !== -1){
+
+      if(TIME(time, list.split("降")[1].trim()){
       replyMessage.push(list.split("降")[1].trim());
+      count++;
+      }
       start_flag = true;
+
     }else{
       if(start_flag){
-        replyMessage.push(list.trim());
+        if(TIME(time, list.trim())){
+          replyMessage.push(list.trim());
+          count++;
+        }
       }else{
         //
       }
@@ -110,4 +124,25 @@ async function getTrainTime( departure, arrival, line,  updown, time){
   replyMessage.pop();
   console.log(time);
   return replyMessage;
+}
+
+
+function TIME(user, list){
+  var flag = false;
+
+  // user : 03:29, list : 快速09:22発〜
+  list = list.split("発")[0];
+  if(list.indexOf("快速") !== -1){
+    list = list.split("速")[1];
+  }
+  user = user.split(":");
+  list = list.split(":");
+  if((Number(list[0]) == Number(user[0])) && (Number(list[1]) > Number(user[1]))){
+    flag = true;
+  }else if(Number(list[0]) > Number(user[1])){
+    flag = true;
+  } else{
+    //
+  }
+  return flag;
 }
