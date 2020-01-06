@@ -98,8 +98,6 @@ async function getTrainTime( departure, arrival, line,  updown){
   lists.forEach((list) => {
     replyMessage.push(list.trim());
   });
-  replyMessage.pop();
-  replyMessage = replyMessage.split("降");
-  replyMessage = replyMessage[1];
+  replyMessage = replyMessage.pop().split("降")[1];
   return replyMessage;
 }
