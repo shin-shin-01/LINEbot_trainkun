@@ -133,7 +133,6 @@ async function getTrainTime( departure, arrival, line,  updown, time, name){
             if( TIME (time, list.trim() ) ){
               if(list.indexOf("快速") !== -1){
                 list = list.replace(/快速/g,"");
-                replyMessage.push("↑ 快速");
                 }else{}
               replyMessage.push(list.trim());
               count++;
