@@ -103,8 +103,8 @@ async function getTrainTime( departure, arrival, line,  updown, time){
     }else{
 
         if(list.indexOf("カレンダー時以降") !== -1){
-
-          if(await TIME (time, list.split("降")[1].trim() ) ){
+          time_flag = await TIME (time, list.split("降")[1].trim());
+          if(time_flag){
             replyMessage.push(list.split("降")[1].trim());
             count++;
            }
@@ -112,7 +112,8 @@ async function getTrainTime( departure, arrival, line,  updown, time){
 
         }else{
           if(start_flag){
-            if(await TIME (time, list.trim() ) ){
+            time_flag = await TIME (time, list.trim());
+            if(time_flag){
               replyMessage.push(list.trim());
               count++;
             }
