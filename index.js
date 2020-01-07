@@ -107,14 +107,19 @@ async function getTrainTime( departure, arrival, line,  updown, time){
           if( TIME (time, list.split("降")[1].trim() ) ){
             replyMessage.push(list.split("降")[1].trim());
             count++;
-           }
-           start_flag = true;
+          }else{
+            //
+          }
+
+          start_flag = true;
 
         }else{
           if(start_flag){
             if( TIME (time, list.trim() ) ){
               replyMessage.push(list.trim());
               count++;
+            }else{
+              //
             }
           }else{
             //
@@ -139,13 +144,15 @@ function TIME(user, list){
   }
   user = user.split(":");
   list = list.split(":");
-  console.log(Number(list[0]) == Number(user[0]));
-  if((Number(list[0]) == Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
+
+  if((Number(list[0]) === Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
     flag = true;
   }else if(Number(list[0]) > Number(user[1])){
     flag = true;
   } else{
     //
   }
+  console.log(flag);
+  
   return flag;
 }
