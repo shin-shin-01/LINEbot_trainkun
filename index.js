@@ -33,9 +33,9 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
 async function handleEvent(event){
 
   if(event.type === 'postback'){
-    if(event.postback.data == "九大学研都市"){
+    if(event.postback.data == "九大学研都市(博多)"){
 
-      var res = await getTrainTime("00009453", "00007420", "00000016", "0", event.postback.params.time, "九大学研都市駅 => 博多");
+      var res = await getTrainTime("00009453", "00007420", "00000016", "0", event.postback.params.time, "九大学研都市駅 → 博多");
       var response = res.join('\n');
 
        responsemsg = {
@@ -43,9 +43,19 @@ async function handleEvent(event){
            text: response
         };
 
+    } else if(event.postback.data == "九大学研都市(天神)"){
+
+      var res = await getTrainTime("00009453", "00006431", "00000836", "0", event.postback.params.time, "九大学研都市駅 → 天神");
+      var response = res.join('\n');
+
+       responsemsg = {
+           type: "text",
+           text: response
+        };
+      }
     } else if(event.postback.data == "博多"){
 
-      var res = await getTrainTime("00007420", "00009453", "00000836", "1", event.postback.params.time, "博多 => 九大学研都市駅");
+      var res = await getTrainTime("00007420", "00009453", "00000836", "1", event.postback.params.time, "博多 → 九大学研都市駅");
       var response = res.join('\n');
 
        responsemsg = {
@@ -65,8 +75,14 @@ async function handleEvent(event){
           actions:[
             {
             type:"datetimepicker",
-            label:"九大学研都市駅発",
-            data:"九大学研都市",
+            label:"九大学研都市駅発(博多)",
+            data:"九大学研都市(博多)",
+            mode:"time"
+            },
+            {
+            type:"datetimepicker",
+            label:"九大学研都市駅発(天神)",
+            data:"九大学研都市(天神)",
             mode:"time"
             },
             {
@@ -116,6 +132,10 @@ async function getTrainTime( departure, arrival, line,  updown, time, name){
         }else{
           if(start_flag){
             if( TIME (time, list.trim() ) ){
+              if(list.indexOf("快速") !== -1){
+                list = list.replace(/快速/g,"");
+                replyMessage.push("↑ 快速");
+              }
               replyMessage.push(list.trim());
               count++;
             }else{
