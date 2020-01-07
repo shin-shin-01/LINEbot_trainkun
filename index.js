@@ -96,7 +96,6 @@ async function getTrainTime( departure, arrival, line,  updown, time, name){
 
   var start_flag = false;
   var count = 0
-  list.push(name);
 
   lists.forEach((list) => {
     if(count >= 5){
@@ -130,6 +129,7 @@ async function getTrainTime( departure, arrival, line,  updown, time, name){
   });
   // replyMessage.pop();
   // console.log(time);
+  replyMessage.unshift(name);
   return replyMessage;
 }
 
