@@ -104,7 +104,7 @@ async function getTrainTime( departure, arrival, line,  updown, time){
 
         if(list.indexOf("カレンダー時以降") !== -1){
 
-          if( TIME (time, list.split("降")[1].trim() ) ){
+          if(await TIME (time, list.split("降")[1].trim() ) ){
             replyMessage.push(list.split("降")[1].trim());
             count++;
            }
@@ -112,7 +112,7 @@ async function getTrainTime( departure, arrival, line,  updown, time){
 
         }else{
           if(start_flag){
-            if( TIME (time, list.trim() ) ){
+            if(await TIME (time, list.trim() ) ){
               replyMessage.push(list.trim());
               count++;
             }
@@ -128,8 +128,9 @@ async function getTrainTime( departure, arrival, line,  updown, time){
 }
 
 
-function TIME(user, list){
+async function TIME(user, list){
   var flag = false;
+  // console.log(user);
 
   // user : 03:29, list : 快速09:22発〜
   list = list.split("発")[0];
@@ -138,7 +139,6 @@ function TIME(user, list){
   }
   user = user.split(":");
   list = list.split(":");
-  console.log(Number(list[1]));
   // console.log(Number(list[0]) == Number(user[0]));
   if((Number(list[0]) == Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
     flag = true;
