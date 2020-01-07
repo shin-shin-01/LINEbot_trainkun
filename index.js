@@ -52,6 +52,15 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
+      } else if(event.postback.data == "天神"){
+
+        var res = await getTrainTime("00006431", "00009453", "00000836", "1", event.postback.params.time, "天神 → 九大学研都市駅");
+        var response = res.join('\n');
+
+         responsemsg = {
+             type: "text",
+             text: response
+          };
       } else if(event.postback.data == "博多"){
 
       var res = await getTrainTime("00007420", "00009453", "00000836", "1", event.postback.params.time, "博多 → 九大学研都市駅");
@@ -86,7 +95,13 @@ async function handleEvent(event){
             },
             {
             type:"datetimepicker",
-            label:"博多駅発",
+            label:"天神発",
+            data:"天神",
+            mode:"time"
+            },
+            {
+            type:"datetimepicker",
+            label:"博多発",
             data:"博多",
             mode:"time"
             }
