@@ -61,7 +61,8 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
-      } else {
+      }
+    } else {
 
       responsemsg = {
         type: "template",
@@ -90,9 +91,9 @@ async function handleEvent(event){
             mode:"time"
             }
             ]
-        }
-         };
-    }
+        }// template
+      };//respose
+    }//else
 
   return bot.replyMessage(event.replyToken, responsemsg);
 } // function-end
