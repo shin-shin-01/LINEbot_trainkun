@@ -80,8 +80,26 @@ async function handleEvent(event){
            text: response
         };
       } else if(event.postback.data == "産学連携(九大学研都市)"){
-        
+
       var res = await getBusTime("00087909", "00291944", "00053907", event.postback.params.time, "産学連携 → 九大学研都市");
+      var response = res.join('\n');
+
+       responsemsg = {
+           type: "text",
+           text: response
+        };
+      } else if(event.postback.data == "九大学研都市(中央図書館)"){
+
+      var res = await getBusTime("00291944", "00291995", "00053907", event.postback.params.time, "九大学研都市 → 中央図書館");
+      var response = res.join('\n');
+
+       responsemsg = {
+           type: "text",
+           text: response
+        };
+      } else if(event.postback.data == "九大学研都市(中央図書館)"){
+
+      var res = await getBusTime("00291995",　"00291944", "00053907", event.postback.params.time, "中央図書館 → 九大学研都市");
       var response = res.join('\n');
 
        responsemsg = {
@@ -151,14 +169,14 @@ async function handleEvent(event){
             },
             {
             type:"datetimepicker",
-            label:"天神発",
-            data:"天神",
+            label:"九大学研 → 中央図書館",
+            data:"九大学研都市(中央図書館)",
             mode:"time"
             },
             {
             type:"datetimepicker",
-            label:"博多発",
-            data:"博多",
+            label:"中央図書館 → 九大学研",
+            data:"中央図書館(九大学研都市)",
             mode:"time"
             }
             ]
