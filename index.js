@@ -245,7 +245,7 @@ async function getBusTime( departure, arrival, line, time, name){
   const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
   let lists = cheerioObject.$('span').text();
   let replyMessage = [];
-  console.log(lists);
+  // console.log(lists);
 
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
@@ -255,9 +255,18 @@ async function getBusTime( departure, arrival, line, time, name){
   var count = 0
 
   lists.forEach((list) => {
-    replyMessage.push(list);
+    if(list.indexOf("カレンダー時以降") !== -1){
+      replyMessage.push(list.split("降")[1].trim());
+      start_flag = true;
+
+    }else{
+      if(start_flag){
+        replyMessage.push(list.trim());
+      }
+    }
   });
   // 先頭に挿入
+  console.log(replyMessage);
   replyMessage.unshift(name);
   return replyMessage;
 }
