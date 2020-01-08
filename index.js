@@ -73,7 +73,7 @@ async function handleEvent(event){
       } else if(event.postback.data == "九大学研都市(産学連携)"){
 
       var res = await getBusTime("00291944", "00087909", "00053907", event.postback.params.time, "九大学研都市 → 産学連携");
-      var response = res.join('/');
+      var response = res.join('\n');
 
        responsemsg = {
            type: "text",
@@ -255,20 +255,25 @@ async function getBusTime( departure, arrival, line, time, name){
   var count = 0
 
   lists.forEach((list) => {
+    if(count >= 5){
+      //break;
+    }else{
+
     if(list.indexOf("カレンダー時以降") !== -1){
       if (Bus_TIME(time, list.split("（始）")[1].trim())){
         replyMessage.push(list.split("（始）")[1].trim());
+        count++;
       }
       start_flag = true;
 
-    }else{
-      if(start_flag){
+    }else if(start_flag){
         if(Bus_TIME(time, list.trim())){
           replyMessage.push(list.trim());
+          count++;
         }
-      }
-    }
-  });
+    }//start-flag
+  }//count_else
+});// for-end
   // 先頭に挿入
   console.log(replyMessage);
   replyMessage.unshift(name);
