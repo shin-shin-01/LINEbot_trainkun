@@ -97,7 +97,7 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
-      } else if(event.postback.data == "九大学研都市(中央図書館)"){
+      } else if(event.postback.data == "中央図書館(九大学研都市)"){
 
       var res = await getBusTime("00291995",　"00291944", "00053907", event.postback.params.time, "中央図書館 → 九大学研都市");
       var response = res.join('\n');
