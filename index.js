@@ -247,7 +247,7 @@ async function getBusTime( departure, arrival, line, time, name){
   let replyMessage = [];
   // console.log(lists);
 
-  lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
+  lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split("行");
 
   // 最初の時刻が取得でき次第Trueにする
   var start_flag = false;
