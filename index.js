@@ -256,12 +256,16 @@ async function getBusTime( departure, arrival, line, time, name){
 
   lists.forEach((list) => {
     if(list.indexOf("カレンダー時以降") !== -1){
-      replyMessage.push(list.split("降")[1].trim());
+      if (Bus_TIME(time, list.split("（始）")[1].trim())){
+        replyMessage.push(list.split("（始）")[1].trim());
+      }
       start_flag = true;
 
     }else{
       if(start_flag){
-        replyMessage.push(list.trim());
+        if(Bus_TIME(time, list.trim())){
+          replyMessage.push(list.trim());
+        }
       }
     }
   });
@@ -272,28 +276,26 @@ async function getBusTime( departure, arrival, line, time, name){
 }
 
 
-// function TIME(user, list){
-//   var flag = false;
-//
-//   // user : 03:29, list : 快速09:22発〜
-//   list = list.split("発")[0];
-//   if(list.indexOf("快速") !== -1){
-//     list = list.split("速")[1];
-//   }
-//   user = user.split(":");
-//   list = list.split(":");
-//
-//   if(Number(list[0]) === 0){
-//     list[0] = 24;
-//   }
-//
-//   if((Number(list[0]) === Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
-//     flag = true;
-//   }else if(Number(list[0]) > Number(user[0])){
-//     flag = true;
-//   }else{
-//     //
-//   }
-//
-//   return flag;
-// }
+function Bus_TIME(user, list){
+  var flag = false;
+
+  // user : 03:29, list : 09:22発〜
+  list = list.split("発")[0];
+
+  user = user.split(":");
+  list = list.split(":");
+
+  if(Number(list[0]) === 0){
+    list[0] = 24;
+  }
+
+  if((Number(list[0]) === Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
+    flag = true;
+  }else if(Number(list[0]) > Number(user[0])){
+    flag = true;
+  }else{
+    //
+  }
+
+  return flag;
+}
