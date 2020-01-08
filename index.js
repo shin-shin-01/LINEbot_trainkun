@@ -70,8 +70,17 @@ async function handleEvent(event){
            type: "text",
            text: response
         };
+      } else if(event.postback.data == "九大学研都市(産学連携)"){
+
+      var res = await getBusTime("00291944", "00087909", "00053907", event.postback.params.time, "九大学研都市 → 産学連携");
+      var response = res.join('/');
+
+       responsemsg = {
+           type: "text",
+           text: response
+        };
       }
-    } else {
+    } else if (event.message.text.indexOf("でんしゃくん") !== -1){
 
       responsemsg = {
         type: "template",
@@ -108,23 +117,62 @@ async function handleEvent(event){
             ]
         }// template
       };//respose
-    }//else
+    } else if (event.message.text.indexOf("ばすくん") !== -1){
+
+      responsemsg = {
+        type: "template",
+        altText: "this is a buttons template",
+        template: {
+            type: "buttons",
+            title: "出発バス停＆時刻選択",
+            text: "Please select",
+          actions:[
+            {
+            type:"datetimepicker",
+            label:"九大学研 → 産学連携",
+            data:"九大学研都市(産学連携)",
+            mode:"time"
+            },
+            {
+            type:"datetimepicker",
+            label:"九大学研都市駅発(天神)",
+            data:"九大学研都市(天神)",
+            mode:"time"
+            },
+            {
+            type:"datetimepicker",
+            label:"天神発",
+            data:"天神",
+            mode:"time"
+            },
+            {
+            type:"datetimepicker",
+            label:"博多発",
+            data:"博多",
+            mode:"time"
+            }
+            ]
+        }// template
+      };//respose
+    } else{}//else
 
   return bot.replyMessage(event.replyToken, responsemsg);
 } // function-end
 
+// -----------------------------------------------------------------------------------
 
 async function getTrainTime( departure, arrival, line,  updown, time, name){
 
   //https://www.navitime.co.jp/diagram/depArrTimeList?departure=00009453&arrival=00007420&line=00000016&updown=0&hour=4&date=2020-01-09
   const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/depArrTimeList',{departure:departure,arrival:arrival,line:line,updown:updown});
-  // span[class="time dep"]
   let lists = cheerioObject.$('span').text();
   let replyMessage = [];
 
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
+  // 最初の時刻が取得でき次第Trueにする
   var start_flag = false;
+  // 表示する個数を数える
   var count = 0
 
   lists.forEach((list) => {
@@ -156,8 +204,7 @@ async function getTrainTime( departure, arrival, line,  updown, time, name){
         }
     }
   });
-  // replyMessage.pop();
-  // console.log(time);
+  // 先頭に挿入
   replyMessage.unshift(name);
   return replyMessage;
 }
@@ -165,7 +212,6 @@ async function getTrainTime( departure, arrival, line,  updown, time, name){
 
 function TIME(user, list){
   var flag = false;
-  // console.log(user);
 
   // user : 03:29, list : 快速09:22発〜
   list = list.split("発")[0];
@@ -183,10 +229,61 @@ function TIME(user, list){
     flag = true;
   }else if(Number(list[0]) > Number(user[0])){
     flag = true;
-  } else{
+  }else{
     //
   }
-  console.log(flag);
 
   return flag;
 }
+
+
+// -----------------------------------------------------------------------
+
+
+async function getBusTime( departure, arrival, line, time, name){
+  // https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053907
+  const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/timelist',{departure:departure,arrival:arrival,line:line});
+  let lists = cheerioObject.$('span').text();
+  let replyMessage = [];
+
+  lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
+
+  // 最初の時刻が取得でき次第Trueにする
+  var start_flag = false;
+  // 表示する個数を数える
+  var count = 0
+
+  lists.forEach((list) => {
+    replyMessage.push(list);
+  });
+  // 先頭に挿入
+  replyMessage.unshift(name);
+  return replyMessage;
+}
+
+
+// function TIME(user, list){
+//   var flag = false;
+//
+//   // user : 03:29, list : 快速09:22発〜
+//   list = list.split("発")[0];
+//   if(list.indexOf("快速") !== -1){
+//     list = list.split("速")[1];
+//   }
+//   user = user.split(":");
+//   list = list.split(":");
+//
+//   if(Number(list[0]) === 0){
+//     list[0] = 24;
+//   }
+//
+//   if((Number(list[0]) === Number(user[0])) && (Number(list[1]) >= Number(user[1]))){
+//     flag = true;
+//   }else if(Number(list[0]) > Number(user[0])){
+//     flag = true;
+//   }else{
+//     //
+//   }
+//
+//   return flag;
+// }
