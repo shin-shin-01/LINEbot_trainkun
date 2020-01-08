@@ -242,9 +242,10 @@ function TIME(user, list){
 
 async function getBusTime( departure, arrival, line, time, name){
   // https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053907
-  const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/timelist',{departure:departure,arrival:arrival,line:line});
+  const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
   let lists = cheerioObject.$('span').text();
   let replyMessage = [];
+  console.log(lists);
 
   lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split(",");
 
