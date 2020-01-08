@@ -306,9 +306,12 @@ async function getBusTime( departure, arrival, line, time, name){
           replyMessage.push(list.trim());
           count++;
         }
-    }//start-flag
-  }//count_else
-});// for-end
+      }//start-flag
+    }//count_else
+  });// for-end
+  if (count === 0){
+    replyMessage.push("終バス終わったよ！");
+  }
   // 先頭に挿入
   replyMessage.unshift(name);
   return replyMessage;
