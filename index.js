@@ -42,7 +42,7 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
   res.sendStatus(200);
   console.log("res Status 200");
 
-  Promise.all(req.body.events.map(handleEvent));
+  Promise.all(req.body.events.map(handleEvent)).catch(alert);
 });
 
 // ----------------------------------------------------
