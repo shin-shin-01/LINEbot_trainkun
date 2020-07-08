@@ -3,7 +3,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  // SSL証明書検証エラーを
 const cheerio = require('cheerio-httpcli');
 
 class Scraping {
-    async getTrainTime( departure, arrival, line,  updown, time, name){
+    getTrainTime( departure, arrival, line,  updown, time, name){
         /*
         電車の時刻に関してスクレイピングを行い結果を返す
 
@@ -69,7 +69,7 @@ class Scraping {
         return replyMessage;
     }
  
-    async getBusTime( departure, arrival, line, time, name){
+    getBusTime( departure, arrival, line, time, name){
         /*
         バスの時刻に関してスクレイピングを行い結果を返す
 
