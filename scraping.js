@@ -3,7 +3,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  // SSL証明書検証エラーを
 const cheerio = require('cheerio-httpcli');
 
 class Scraping {
-    getTrainTime( departure, arrival, line,  updown, time, name){
+    async getTrainTime( departure, arrival, line,  updown, time, name){
         /*
         電車の時刻に関してスクレイピングを行い結果を返す
 
@@ -24,7 +24,7 @@ class Scraping {
         Example of scraping link
         https://www.navitime.co.jp/diagram/depArrTimeList?departure=00009453&arrival=00007420&line=00000016&updown=0&hour=4&date=2020-01-09
         */
-        const cheerioObject = cheerio.fetch('https://www.navitime.co.jp/diagram/depArrTimeList',{departure:departure,arrival:arrival,line:line,updown:updown});
+        const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/diagram/depArrTimeList',{departure:departure,arrival:arrival,line:line,updown:updown});
         let lists = cheerioObject.$('span').text();
         let replyMessage = [];
     
@@ -69,7 +69,7 @@ class Scraping {
         return replyMessage;
     }
  
-    getBusTime( departure, arrival, line, time, name){
+    async getBusTime( departure, arrival, line, time, name){
         /*
         バスの時刻に関してスクレイピングを行い結果を返す
 
@@ -89,7 +89,7 @@ class Scraping {
         Example of scraping link
         https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053907
         */
-        const cheerioObject = cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
+        const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
         let lists = cheerioObject.$('span').text();
         let replyMessage = [];
         // console.log(lists);
