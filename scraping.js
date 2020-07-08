@@ -17,7 +17,7 @@ class Scraping {
 
         [return]
         replyMessage: string
-    
+
         */
 
         /* 
@@ -36,33 +36,33 @@ class Scraping {
         var count = 0
     
         lists.forEach((list) => {
-        if(count >= 5){
+          if(count >= 5){
             //break;
-        }else{
+          }else{
     
             if(list.indexOf("カレンダー時以降") !== -1){
     
-                if( TIME (time, list.split("降")[1].trim(), 'train') ){
+              if( TIME (time, list.split("降")[1].trim(), 'train') ){
                 replyMessage.push(list.split("降")[1].trim());
                 count++;
-                }else{
+              }else{
                 ;
-                }
+              }
     
-                is_start = true;
-    
+              is_start = true;
+
             }else{
-                if(is_start){
+              if(is_start){
                 if( TIME (time, list.trim(), 'train') ){
-                    if(list.indexOf("快速") !== -1){
+                  if(list.indexOf("快速") !== -1){
                     list = list.replace(/快速/g,"");
-                    }else{}
-                    replyMessage.push(list.trim());
-                    count++;
+                  }else{}
+                  replyMessage.push(list.trim());
+                  count++;
                 }else{}
-                }else{}
+              }else{}
             }
-        }
+          }
         });
         // 駅名を先頭に挿入
         replyMessage.unshift(name);
@@ -102,34 +102,35 @@ class Scraping {
         var count = 0
         if (departure === "00291944"){
         // 九大学研都市駅は始発
-        var split_word = "（始）";
+          var split_word = "（始）";
         }else{
-        var split_word = "降";
+          var split_word = "降";
         }
     
     
         lists.forEach((list) => {
-        if(count >= 6){
+          if(count >= 6){
             //break;
-        }else{
+          }else{
     
-        if(list.indexOf("カレンダー時以降") !== -1){
-            if (TIME(time, list.split(split_word)[1].trim(), 'bus')){
-            replyMessage.push(list.split(split_word)[1].trim());
-            count++;
-            }
-            is_start = true;
+            if(list.indexOf("カレンダー時以降") !== -1){
+              if (TIME(time, list.split(split_word)[1].trim(), 'bus')){
+                replyMessage.push(list.split(split_word)[1].trim());
+                count++;
+              }
+              is_start = true;
     
-        }else if(is_start){
-            if(TIME(time, list.trim(), 'bus')){
+            }else if(is_start){
+              if(TIME(time, list.trim(), 'bus')){
                 replyMessage.push(list.trim());
                 count++;
-            }
+              }
             }//start-flag
-        }//count_else
+          }//count_else
         });// for-end
+
         if (count === 0){
-        replyMessage.push("終バス終わったよ！");
+          replyMessage.push("終バス終わったよ！");
         }
         // 先頭に挿入
         replyMessage.unshift(name);
@@ -153,27 +154,27 @@ class Scraping {
         var flag = false;
     
         if (type == "train") {
-            // 快速09:22発〜
-            list = list.split("発")[0];
-            if(list.indexOf("快速") !== -1){
+          // 快速09:22発〜
+          list = list.split("発")[0];
+          if(list.indexOf("快速") !== -1){
             list = list.split("速")[1];
-            }
+          }
         } else if (type == "bus") {
-            // list : 09:22発〜
-            list = list.split("発")[0];
+          // list : 09:22発〜
+          list = list.split("発")[0];
         }
 
         time = time.split(":");
         list = list.split(":");
     
         if(Number(list[0]) === 0){
-        list[0] = 24;
+          list[0] = 24;
         }
     
         if((Number(list[0]) === Number(time[0])) && (Number(list[1]) >= Number(time[1]))){
-        flag = true;
+          flag = true;
         }else if(Number(list[0]) > Number(time[0])){
-        flag = true;
+          flag = true;
         }else{
         //
         }
