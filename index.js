@@ -47,6 +47,7 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
 // ----------------------------------------------------
 
 async function handleEvent(event){
+  console.log(event);
 
   if(event.type === 'postback'){
     if(event.postback.data == "九大学研都市(博多)"){
@@ -168,7 +169,10 @@ async function handleEvent(event){
     };//respose
 
   } else{
-    ;
+    responsemsg = {
+      type: "text",
+      text: "メニューから選択してください"
+    };
   }//else
 
   // postbackのresponseがあれば
@@ -176,8 +180,8 @@ async function handleEvent(event){
     responsemsg = {
       type: "text",
       text: response
-      };
-  } catch {
+    };
+  } catch(e){
     ;
   }
 
