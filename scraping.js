@@ -2,6 +2,53 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;  // SSL証明書検証エラーを無視する設定
 const cheerio = require('cheerio-httpcli');
 
+
+
+function TIME(time, list, type){
+    /*
+    時刻の比較を行い　time以降のものを取得
+
+    [input]
+    time: 指定時刻　ex) str. 00:00
+    list: ex) 快速09:22発〜 or 09:22発〜
+    type: str. 'train' or 'bus'
+
+    [return]
+    flag: bool
+
+    */
+    var flag = false;
+
+    if (type == "train") {
+      // 快速09:22発〜
+      list = list.split("発")[0];
+      if(list.indexOf("快速") !== -1){
+        list = list.split("速")[1];
+      }
+    } else if (type == "bus") {
+      // list : 09:22発〜
+      list = list.split("発")[0];
+    }
+
+    time = time.split(":");
+    list = list.split(":");
+
+    if(Number(list[0]) === 0){
+      list[0] = 24;
+    }
+
+    if((Number(list[0]) === Number(time[0])) && (Number(list[1]) >= Number(time[1]))){
+      flag = true;
+    }else if(Number(list[0]) > Number(time[0])){
+      flag = true;
+    }else{
+    //
+    }
+
+    return flag;
+}
+
+
 class Scraping {
     async getTrainTime( departure, arrival, line,  updown, time, name){
         /*
@@ -135,51 +182,6 @@ class Scraping {
         // 先頭に挿入
         replyMessage.unshift(name);
         return replyMessage;
-    }
-  
-  
-    TIME(time, list, type){
-        /*
-        時刻の比較を行い　time以降のものを取得
-
-        [input]
-        time: 指定時刻　ex) str. 00:00
-        list: ex) 快速09:22発〜 or 09:22発〜
-        type: str. 'train' or 'bus'
-
-        [return]
-        flag: bool
-    
-        */
-        var flag = false;
-    
-        if (type == "train") {
-          // 快速09:22発〜
-          list = list.split("発")[0];
-          if(list.indexOf("快速") !== -1){
-            list = list.split("速")[1];
-          }
-        } else if (type == "bus") {
-          // list : 09:22発〜
-          list = list.split("発")[0];
-        }
-
-        time = time.split(":");
-        list = list.split(":");
-    
-        if(Number(list[0]) === 0){
-          list[0] = 24;
-        }
-    
-        if((Number(list[0]) === Number(time[0])) && (Number(list[1]) >= Number(time[1]))){
-          flag = true;
-        }else if(Number(list[0]) > Number(time[0])){
-          flag = true;
-        }else{
-        //
-        }
-    
-        return flag;
     }
 }
 
