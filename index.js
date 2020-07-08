@@ -42,7 +42,7 @@ server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
   res.sendStatus(200);
   console.log("res Status 200");
 
-  Promise.all(req.body.events.map(handleEvent)).catch(alert);
+  Promise.all(req.body.events.map(handleEvent));
 });
 
 // ----------------------------------------------------
@@ -53,42 +53,42 @@ async function handleEvent(event){
   if(event.type === 'postback'){
     if(event.postback.data == "九大学研都市(博多)"){
 
-      var res = scrape.getTrainTime("00009453", "00007420", "00000016", "0", event.postback.params.time, "九大学研都市駅 → 博多");
+      var res = await scrape.getTrainTime("00009453", "00007420", "00000016", "0", event.postback.params.time, "九大学研都市駅 → 博多");
       var response = res.join('\n');
 
     } else if(event.postback.data == "九大学研都市(天神)"){
 
-    var res = scrape.getTrainTime("00009453", "00006431", "00000016", "0", event.postback.params.time, "九大学研都市駅 → 天神");
+    var res= await scrape.getTrainTime("00009453", "00006431", "00000016", "0", event.postback.params.time, "九大学研都市駅 → 天神");
     var response = res.join('\n');
 
     } else if(event.postback.data == "天神"){
 
-      var res = scrape.getTrainTime("00006431", "00009453", "00000836", "1", event.postback.params.time, "天神 → 九大学研都市駅");
+      var res= await scrape.getTrainTime("00006431", "00009453", "00000836", "1", event.postback.params.time, "天神 → 九大学研都市駅");
       var response = res.join('\n');
 
     } else if(event.postback.data == "博多"){
 
-    var res = scrape.getTrainTime("00007420", "00009453", "00000836", "1", event.postback.params.time, "博多 → 九大学研都市駅");
+    var res= await scrape.getTrainTime("00007420", "00009453", "00000836", "1", event.postback.params.time, "博多 → 九大学研都市駅");
     var response = res.join('\n');
 
     } else if(event.postback.data == "九大学研都市(産学連携)"){
 
-    var res = scrape.getBusTime("00291944", "00087909", "00053907", event.postback.params.time, "九大学研都市 → 産学連携");
+    var res= await scrape.getBusTime("00291944", "00087909", "00053907", event.postback.params.time, "九大学研都市 → 産学連携");
     var response = res.join('\n');
 
     } else if(event.postback.data == "産学連携(九大学研都市)"){
 
-    var res = scrape.getBusTime("00087909", "00291944", "00053907", event.postback.params.time, "産学連携 → 九大学研都市");
+    var res= await scrape.getBusTime("00087909", "00291944", "00053907", event.postback.params.time, "産学連携 → 九大学研都市");
     var response = res.join('\n');
 
     } else if(event.postback.data == "九大学研都市(中央図書館)"){
 
-    var res = scrape.getBusTime("00291944", "00291995", "00053907", event.postback.params.time, "九大学研都市 → 中央図書館");
+    var res= await scrape.getBusTime("00291944", "00291995", "00053907", event.postback.params.time, "九大学研都市 → 中央図書館");
     var response = res.join('\n');
 
     } else if(event.postback.data == "中央図書館(九大学研都市)"){
 
-    var res = scrape.getBusTime("00291995",　"00291944", "00053907", event.postback.params.time, "中央図書館 → 九大学研都市");
+    var res= await scrape.getBusTime("00291995",　"00291944", "00053907", event.postback.params.time, "中央図書館 → 九大学研都市");
     var response = res.join('\n');
 
     }
