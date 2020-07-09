@@ -36,6 +36,21 @@ bot = new line.Client(line_config);
 // ----------------------------------------------------
 // ルーター設定
 server.get('/', (req, res) => res.send('Hello, LINEBOT!')); //ブラウザ確認用
+server.get('/test', (req, res) => {
+  async function test(){
+    var root = ["00053907", "00053915"];
+    var response = [];
+    for (var idx in root) {
+      var res = await scrape.getBusTime("00291944", "00087909", root[idx],  "07:00", "九大学研都市 → 産学連携");
+      response.push([res.join('\n')]);
+    }
+
+    console.log('OKAERI!');
+    console.log(response);
+  }
+
+  test();
+}); //関数テスト用
 
 server.post('/bot/webhook', line.middleware(line_config), (req, res, next) => {
   // 先行してLINE側にステータスコード200でレスポンスする
@@ -64,25 +79,35 @@ async function handleEvent(event){
       var code = ["train", "00007420", "00009453", "00000836", "1", "博多 → 九大学研都市駅"];
 
     } else if(event.postback.data == "九大学研都市(産学連携)"){
-      var code = ["bus", "00291944", "00087909", "00053907", "九大学研都市 → 産学連携"];
+      var code = ["bus", "00291944", "00087909", "九大学研都市 → 産学連携"];
+      var root = ["00053907", "00053915"];
 
     } else if(event.postback.data == "産学連携(九大学研都市)"){
-      var code = ["bus", "00087909", "00291944", "00053907", "産学連携 → 九大学研都市"];
-
+      var code = ["bus", "00087909", "00291944", "産学連携 → 九大学研都市"];
+      var root = ["00053907", "00053915", "00053917"];
+      
     } else if(event.postback.data == "九大学研都市(中央図書館)"){
-      var code = ["bus", "00291944", "00291995", "00053907", "九大学研都市 → 中央図書館"];
+      var code = ["bus", "00291944", "00291995", "九大学研都市 → 中央図書館"];
+      var root = ["00053907", "00053914", "00053915"];
 
     } else if(event.postback.data == "中央図書館(九大学研都市)"){
       var code = ["bus", "00291995",　"00291944", "00053907", "中央図書館 → 九大学研都市"];
+      var root = ["00053907", "00053914", "00053915"];
 
     }
 
     if (code[0] == "train") {
       var res = await scrape.getTrainTime(code[1], code[2], code[3], code[4], event.postback.params.time, code[5]);
+      var response = res.join('\n');
+
     } else if (code[0] == "bus") {
-      var res = await scrape.getBusTime(code[1], code[2], code[3], event.postback.params.time, code[4]);
+      var response = [];
+      for (var idx in root) {
+        var res = await scrape.getBusTime(code[1], code[2], root[idx], event.postback.params.time, code[3]);
+        response.push([res.join('\n')]);
+      }
     }
-    var response = res.join('\n');
+
     var responsemsg = {
       type: "text",
       text: response

@@ -134,7 +134,8 @@ class Scraping {
 
         /* 
         Example of scraping link
-        https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053907
+        https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053907 //学園通り
+        https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053915 //周船寺
         */
         const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
         let lists = cheerioObject.$('span').text();
@@ -181,6 +182,7 @@ class Scraping {
         }
         // 先頭に挿入
         replyMessage.unshift(name);
+        console.log(replyMessage);
         return replyMessage;
     }
 }
