@@ -17,7 +17,6 @@ Bus : scraping time-table<br>
 ・九大学研都市⇄中央図書館<br>
 
 [ Problem ]<br>
-・Bus time-table : we can only get information about "学園通り経由" <br>
 ・we can't choose date
 
 
