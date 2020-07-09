@@ -80,7 +80,7 @@ async function handleEvent(event){
     if (code[0] == "train") {
       var res = await scrape.getTrainTime(code[1], code[2], code[3], code[4], event.postback.params.time, code[5]);
     } else if (code[0] == "bus") {
-      var res = await scrape.getBusTime(code[1], code[2], cpde[3], event.postback.params.time, code[4]);
+      var res = await scrape.getBusTime(code[1], code[2], code[3], event.postback.params.time, code[4]);
     }
     var response = res.join('\n');
     var responsemsg = {
