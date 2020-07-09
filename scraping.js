@@ -181,14 +181,14 @@ class Scraping {
           replyMessage.push("終バス終わったよ！");
         }
         // 先頭に挿入
-        linename = {
+        var linename = {
           "00053907": "学園通り経由",
           "00053914": "横浜西経由",
           "00053915": "周船寺経由",
           "00053917": "直行",
-        }
+        };
+        replyMessage.unshift("[路線："+linename[line]+"]")
         replyMessage.unshift(name);
-        replyMessage.unshift("路線："+linename[line])
         console.log(replyMessage);
         return replyMessage;
     }
