@@ -98,20 +98,22 @@ async function handleEvent(event){
 
     if (code[0] == "train") {
       var res = await scrape.getTrainTime(code[1], code[2], code[3], code[4], event.postback.params.time, code[5]);
-      var response = res.join('\n');
+      var responsemsg = {
+        type: "text",
+        text: res.join('\n')
+      };
 
     } else if (code[0] == "bus") {
-      var response = [];
+      var responsemsg = [];
+
       for (var idx in root) {
         var res = await scrape.getBusTime(code[1], code[2], root[idx], event.postback.params.time, code[3]);
-        response.push([res.join('\n')]);
+        responsemsg.push({
+          type: "text",
+          text: res.join('\n')
+        });
       }
     }
-
-    var responsemsg = {
-      type: "text",
-      text: response
-    };
 
   // postback else
   } else if (event.message.text.indexOf("でんしゃくん") !== -1){
