@@ -38,10 +38,10 @@ bot = new line.Client(line_config);
 server.get('/', (req, res) => res.send('Hello, LINEBOT!')); //ブラウザ確認用
 server.get('/test', (req, res) => {
   async function test(){
-    var root = ["00053907", "00053915"];
+    var root = ["00053907", "00053915", "00053917"];
     var response = [];
     for (var idx in root) {
-      var res = await scrape.getBusTime("00291944", "00087909", root[idx],  "07:00", "九大学研都市 → 産学連携");
+      var res = await scrape.getBusTime("00087909", "00291944", root[idx],  "07:00", "九大学研都市 → 産学連携");
       response.push([res.join('\n')]);
     }
 
@@ -91,7 +91,7 @@ async function handleEvent(event){
       var root = ["00053907", "00053914", "00053915"];
 
     } else if(event.postback.data == "中央図書館(九大学研都市)"){
-      var code = ["bus", "00291995",　"00291944", "00053907", "中央図書館 → 九大学研都市"];
+      var code = ["bus", "00291995",　"00291944", "中央図書館 → 九大学研都市"];
       var root = ["00053907", "00053914", "00053915"];
 
     }

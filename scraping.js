@@ -137,61 +137,75 @@ class Scraping {
         https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053907 //学園通り
         https://www.navitime.co.jp/bus/diagram/timelist?departure=00291944&arrival=00087909&line=00053915 //周船寺
         */
-        const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
-        let lists = cheerioObject.$('span').text();
-        let replyMessage = [];
-        // console.log(lists);
-    
-        lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split("行");
-    
-        // 最初の時刻が取得でき次第Trueにする
-        var is_start = false;
-        // 表示する個数を数える
-        var count = 0
-        if (departure === "00291944"){
-        // 九大学研都市駅は始発
-          var split_word = "（始）";
-        }else{
-          var split_word = "降";
-        }
-    
-    
-        lists.forEach((list) => {
-          if(count >= 6){
-            //break;
+        try {
+          const cheerioObject = await cheerio.fetch('https://www.navitime.co.jp/bus/diagram/timelist',{departure:departure,arrival:arrival,line:line});
+          let lists = cheerioObject.$('span').text();
+          let replyMessage = [];
+          // console.log(lists);
+      
+          lists = lists.trim().replace(/\t/g, "").replace(/\n+/g, ",").split("行");
+      
+          // 最初の時刻が取得でき次第Trueにする
+          var is_start = false;
+          // 表示する個数を数える
+          var count = 0
+          if (departure === "00291944"){
+          // 九大学研都市駅は始発
+            var split_word = "（始）";
           }else{
-    
-            if(list.indexOf("カレンダー時以降") !== -1){
-              if (TIME(time, list.split(split_word)[1].trim(), 'bus')){
-                replyMessage.push(list.split(split_word)[1].trim());
-                count++;
-              }
-              is_start = true;
-    
-            }else if(is_start){
-              if(TIME(time, list.trim(), 'bus')){
-                replyMessage.push(list.trim());
-                count++;
-              }
-            }//start-flag
-          }//count_else
-        });// for-end
+            var split_word = "降";
+          }
+      
+      
+          lists.forEach((list) => {
+            if(count >= 6){
+              //break;
+            }else{
+      
+              if(list.indexOf("カレンダー時以降") !== -1){
+                if (TIME(time, list.split(split_word)[1].trim(), 'bus')){
+                  replyMessage.push(list.split(split_word)[1].trim());
+                  count++;
+                }
+                is_start = true;
+      
+              }else if(is_start){
+                if(TIME(time, list.trim(), 'bus')){
+                  replyMessage.push(list.trim());
+                  count++;
+                }
+              }//start-flag
+            }//count_else
+          });// for-end
 
-        if (count === 0){
-          replyMessage.push("終バス終わったよ！");
+          if (count === 0){
+            replyMessage.push("終バス終わったよ！");
+          }
+          // 先頭に挿入
+          var linename = {
+            "00053907": "学園通り経由",
+            "00053914": "横浜西経由",
+            "00053915": "周船寺経由",
+            "00053917": "直行",
+          };
+          replyMessage.unshift("[路線："+linename[line]+"]")
+          replyMessage.unshift(name);
+          console.log(replyMessage);
+          return replyMessage;
         }
-        // 先頭に挿入
-        var linename = {
-          "00053907": "学園通り経由",
-          "00053914": "横浜西経由",
-          "00053915": "周船寺経由",
-          "00053917": "直行",
-        };
-        replyMessage.unshift("[路線："+linename[line]+"]")
-        replyMessage.unshift(name);
-        console.log(replyMessage);
-        return replyMessage;
-    }
+        catch(e) {
+          // 先頭に挿入
+          var linename = {
+            "00053907": "学園通り経由",
+            "00053914": "横浜西経由",
+            "00053915": "周船寺経由",
+            "00053917": "直行",
+          };
+          let replyMessage = [name, "[路線："+linename[line]+"]", "今日は休業です。"];
+          console.log(replyMessage);
+          return replyMessage;
+        }
+      }
 }
 
 module.exports = Scraping;
