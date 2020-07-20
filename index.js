@@ -100,13 +100,10 @@ async function handleEvent(event){
           break;
         }
         responsemsg["quickReply"]["items"].push({
-          "type": "datetimepicker",
-          "action": {
-              "type":"postback",
-              "label": key,
-              "data": event.postback.data.slice(2) + ' → ' + key,
-              "mode": "time"
-          }
+          "type":"datetimepicker",
+          "label": key,
+          "data": event.postback.data.slice(2) + ' → ' + key,
+          "mode": "time"
         })
       }
 
