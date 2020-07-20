@@ -87,6 +87,29 @@ async function handleEvent(event){
           text: "現在の登録をばすくんで確認してね（改良中）"
         }
       }
+    } else if (event.postback.data.slice(0, 1) == 'A') {
+      var responsemsg = {
+        "type": "text",
+        "text": `目的地を選んでね`,
+        "quickReply": {
+          "items": []
+        }
+      }
+      for (var key in busdata) {
+        if (key.indexOf(' → ') !== -1){
+          break;
+        }
+        responsemsg["quickReply"]["items"].push({
+          "type": "datetimepicker",
+          "action": {
+              "type":"postback",
+              "label": key,
+              "data": event.postback.data.slice(2) + ' → ' + key,
+              "mode": "time"
+          }
+        })
+      }
+
     } else {
 
       if(event.postback.data == "九大学研都市(博多)"){
@@ -230,6 +253,28 @@ async function handleEvent(event){
           }
         })
       }
+
+  } else if (event.message.text.indexOf("全部のばす") !== -1) {
+    var responsemsg = {
+      "type": "text",
+      "text": `乗り場を選んでね`,
+      "quickReply": {
+        "items": []
+      }
+    }
+    for (var key in busdata) {
+      if (key.indexOf(' → ') !== -1){
+        break;
+      }
+      responsemsg["quickReply"]["items"].push({
+        "type": "action",
+        "action": {
+            "type":"postback",
+            "label": key,
+            "data": 'A'+key
+        }
+      })
+    }
 
   } else {
     responsemsg = {
