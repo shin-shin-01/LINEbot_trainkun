@@ -104,7 +104,7 @@ async function handleEvent(event){
           "action": {
             "type":"datetimepicker",
             "label": key,
-            "data": event.postback.data.slice(2) + ' → ' + key,
+            "data": event.postback.data.slice(1) + ' → ' + key,
             "mode": "time"
           }
         })
