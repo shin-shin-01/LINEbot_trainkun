@@ -77,20 +77,22 @@ async function handleEvent(event){
   if(event.type === 'postback'){
     // 登録作業でのPOSTBACK
     if (event.postback.data.slice(0, 1) == 'R') {
-      if((event.postback.data).length == 2){
-        responsemsg = await db_func.SelectBus(event.postback.data.slice(1, 2));
+      //R<番号><バス停名> : 何番のバス停を何に変更するか聞く
+      await db_func.registerDB(userid, event.postback.data.slice(1, 2), event.postback.data.slice(2));
+      var num = Number(event.postback.data.slice(1, 2));
+      if (num <= 3){
+        responsemsg = await db_func.SelectBus(String(num+1));
       } else {
-        await db_func.registerDB(userid, event.postback.data.slice(1, 2), event.postback.data.slice(2));
-        // TODO: 確認作業を簡単に表示しよう
         responsemsg = {
           type: "text",
-          text: "現在の登録をばすくんで確認してね（改良中）"
+          text: "登録完了しました！"
         }
       }
+     // 全部のばす
     } else if (event.postback.data.slice(0, 1) == 'A') {
       var responsemsg = {
         "type": "text",
-        "text": `目的地を選んでね`,
+        "text": `目的地を選んでね\n1回だけ押して待ってください...！！`,
         "quickReply": {
           "items": []
         }
@@ -145,7 +147,7 @@ async function handleEvent(event){
         if ((!root)||(root[0] == "error")) {
           responsemsg.push({
             type: "text",
-            text: "該当する時刻表がありません。追加を待ってね"
+            text: event.postback.data+"\n\n該当する時刻表がありません。追加を待ってね"
           });
         } else {
           for (var idx in root) {
@@ -236,23 +238,7 @@ async function handleEvent(event){
     };//respose
 
   } else if (event.message.text.indexOf("登録") !== -1) {
-     var responsemsg = {
-        "type": "text",
-        "text": `変更するバス停を選択してね`,
-        "quickReply": {
-          "items": []
-        }
-      }
-      for (var i=1; i<5; i++) {
-        responsemsg["quickReply"]["items"].push({
-          "type": "action",
-          "action": {
-              "type":"postback",
-              "label": user_bus[`bus${i}`],
-              "data": 'R'+String(i)
-          }
-        })
-      }
+    responsemsg = await db_func.SelectBus(1);
 
   } else if (event.message.text.indexOf("全部のばす") !== -1) {
     var responsemsg = {

@@ -67,7 +67,7 @@ class DB {
         */
         let responsemsg = {
             "type": "text",
-            "text": `Select ${num} Bus Stop`,
+            "text": `Select Bus Stop No.${num}`,
             "quickReply": {
               "items": []
             }
